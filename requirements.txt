@@ -1,0 +1,40 @@
+# Core
+pandas
+numpy
+scikit-learn
+pyyaml
+
+# Database (Supabase)
+supabase
+psycopg2-binary
+
+# ML model tracking
+mlflow
+evidently
+river 
+
+# API & Web Frameworks
+fastapi
+uvicorn
+
+# Streamlit dashboard
+streamlit
+plotly
+matplotlib
+seaborn
+
+# Logging, utility
+python-dotenv
+loguru
+
+# For scheduling retraining jobs
+apscheduler
+
+# For packaging / path resolution
+setuptools
+
+# Testing
+pytest
+
+#Jupyter Notebook
+ipykernel

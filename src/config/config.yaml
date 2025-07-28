@@ -1,0 +1,6 @@
+supabase:
+  url: "https://yhtnzkqhbxgbdjivolbw.supabase.co"    
+  key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlodG56a3FoYnhnYmRqaXZvbGJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0MTk3NzIsImV4cCI6MjA2ODk5NTc3Mn0.w1xo7YzZmpY2VFT1SX3ZsfEkTUkrMacIRX9yHfXrQVE"             
+  raw_table_name: customer_transactions
+  schema: "public"
+  transformed_table_name: transformed_customer_data

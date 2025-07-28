@@ -1,0 +1,83 @@
+name: CLV End-to-End CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours (to check for new data)
+  workflow_dispatch:  # Manual trigger
+
+env:
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+  MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+  MLFLOW_S3_ENDPOINT_URL: ${{ secrets.MLFLOW_S3_ENDPOINT_URL }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
+  RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+
+jobs:
+  clv-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🔄 Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11.7
+
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: 🧪 Run ETL + Ingestion + Preprocessing
+      run: |
+        python run_pipeline.py
+        python run_feature_engineering.py
+        python run_preprocessor.py
+
+    - name: 🤖 Train & Log Model to MLflow
+      run: |
+        python run_model_train.py
+
+    - name: 📊 Run Prediction
+      run: |
+        python run_model_predict.py
+
+  docker-and-deploy:
+    needs: clv-pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🔄 Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: 🔐 Login to Docker Hub
+      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+    - name: 🐳 Build FastAPI Image
+      run: |
+        docker build -f Dockerfile.fastapi -t sujato/clv-fastapi:latest .
+
+    - name: 🐳 Build Streamlit Image
+      run: |
+        docker build -f Dockerfile.streamlit -t sujato/clv-streamlit:latest .
+
+    - name: 🚀 Push Docker Images to Docker Hub
+      run: |
+        docker push sujato/clv-fastapi:latest
+        docker push sujato/clv-streamlit:latest
+
+    - name: ⚙️ Deploy to Railway (FastAPI)
+      run: |
+        curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.RAILWAY_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{}' \
+          "https://backboard.railway.app/project/${{ secrets.RAILWAY_PROJECT_ID }}/deployments"
+

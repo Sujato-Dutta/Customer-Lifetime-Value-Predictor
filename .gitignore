@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.env.*
+*.env
+
+# ML/DS
+artifacts/
+mlruns/
+*.pkl
+*.joblib
+
+# Jupyter
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Railway/Docker
+*.log
+railway.json
+.dockerignore

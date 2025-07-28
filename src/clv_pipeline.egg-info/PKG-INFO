@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: clv_pipeline
+Version: 0.1.0
+Summary: Customer Lifetime Value Prediction Pipeline
+Author: Sujato Dutta
+Author-email: sujatodutta0204@gmail.com
+Dynamic: author
+Dynamic: author-email
+Dynamic: summary
