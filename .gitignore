@@ -9,9 +9,8 @@ venv/
 *.env
 
 # ML/DS
-artifacts/
+mlartifacts/
 mlruns/
-*.pkl
 *.joblib
 
 # Jupyter

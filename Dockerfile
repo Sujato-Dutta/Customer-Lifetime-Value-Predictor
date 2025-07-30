@@ -1,4 +1,4 @@
-# Dockerfile.streamlit
+# Dockerfile for streamlit app
 
 FROM python:3.11.7-slim
 

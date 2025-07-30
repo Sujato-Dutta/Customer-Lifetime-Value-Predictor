@@ -3,9 +3,7 @@ name: CLV End-to-End CI/CD Pipeline
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours (to check for new data)
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:       # Manual trigger
 
 env:
   SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -35,17 +33,17 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: 🧪 Run ETL + Ingestion + Preprocessing
+    - name: 🧪 Run ETL + Ingestion + Feature Engineering
       run: |
         python run_pipeline.py
         python run_feature_engineering.py
         python run_preprocessor.py
 
-    - name: 🤖 Train & Log Model to MLflow
+    - name: 🤖 Train Model & Log to MLflow
       run: |
         python run_model_train.py
 
-    - name: 📊 Run Prediction
+    - name: 📊 Run Final Predictions
       run: |
         python run_model_predict.py
 
@@ -57,27 +55,21 @@ jobs:
     - name: 🔄 Checkout Repository
       uses: actions/checkout@v3
 
-    - name: 🔐 Login to Docker Hub
+    - name: 🔐 Docker Hub Login
       run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-    - name: 🐳 Build FastAPI Image
+    - name: 🐳 Build & Tag Streamlit Docker Image
       run: |
-        docker build -f Dockerfile.fastapi -t sujato/clv-fastapi:latest .
+        docker build -f Dockerfile -t sujato/clv-streamlit:latest .
 
-    - name: 🐳 Build Streamlit Image
+    - name: 🚀 Push to Docker Hub
       run: |
-        docker build -f Dockerfile.streamlit -t sujato/clv-streamlit:latest .
-
-    - name: 🚀 Push Docker Images to Docker Hub
-      run: |
-        docker push sujato/clv-fastapi:latest
         docker push sujato/clv-streamlit:latest
 
-    - name: ⚙️ Deploy to Railway (FastAPI)
+    - name: ⚙️ Trigger Railway Deployment (Streamlit)
       run: |
         curl -X POST \
           -H "Authorization: Bearer ${{ secrets.RAILWAY_API_TOKEN }}" \
           -H "Content-Type: application/json" \
           -d '{}' \
           "https://backboard.railway.app/project/${{ secrets.RAILWAY_PROJECT_ID }}/deployments"
-

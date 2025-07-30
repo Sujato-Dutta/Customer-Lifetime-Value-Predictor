@@ -12,6 +12,7 @@ psycopg2-binary
 mlflow
 evidently
 river 
+dagshub
 
 # API & Web Frameworks
 fastapi

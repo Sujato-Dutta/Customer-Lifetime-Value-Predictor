@@ -27,7 +27,7 @@ Customer Lifetime Value (CLV) is one of the most critical metrics in customer-ce
 
 | Category             | Tools Used                                          |
 | -------------------- | --------------------------------------------------- |
-| **Backend**          | Python, FastAPI                                     |
+| **Language**         | Python                                              |
 | **Dashboard**        | Streamlit                                           |
 | **Database**         | Supabase PostgreSQL                                 |
 | **ML Frameworks**    | scikit-learn, MLflow                                |
@@ -70,20 +70,16 @@ Customer Lifetime Value (CLV) is one of the most critical metrics in customer-ce
      * Evaluation metrics
      * Artifacts (model, preprocessor)
 
-7. **📤 FastAPI App**
+7. **📊 Streamlit Dashboard**
 
-   * Exposes `/predict` endpoint to serve CLV predictions with confidence score.
+   * Real-time interactive dashboard to predict CLV.
 
-8. **📊 Streamlit Dashboard**
+8. **🐳 Dockerization**
 
-   * Real-time interactive dashboard to predict CLV..
+    * Streamlit app containerized for portability and consistency.
+    * Image pushed to Docker Hub.
 
-9. **🐳 Dockerization**
-
-    * Both FastAPI and Streamlit apps are containerized for portability and consistency.
-    * Images pushed to Docker Hub.
-
-10. **🤖 CI/CD with GitHub Actions**
+9. **🤖 CI/CD with GitHub Actions**
 
     * Automates build, test, and deploy workflows.
     * Deploys directly to Railway minimal manual effort.
@@ -99,15 +95,15 @@ Customer Lifetime Value (CLV) is one of the most critical metrics in customer-ce
    cd clv-predictor
    ```
 
-2. **Run with Docker Compose**
+2. **Run with Docker**
 
    ```bash
-   docker-compose up --build
+   docker build -t clv-streamlit-app -f Dockerfile .
+
    ```
 
-3. **Access Applications**
+3. **Access Application**
 
-   * FastAPI: [http://localhost:8000](http://localhost:8000)
    * Streamlit Dashboard: [http://localhost:8501](http://localhost:8501)
 
 ---
@@ -116,7 +112,6 @@ Customer Lifetime Value (CLV) is one of the most critical metrics in customer-ce
 
 ```
 ├── app/
-│   ├── fastapi_app/            # FastAPI server logic
 │   └── streamlit_app/          # Streamlit UI dashboard
 |__ data                        # Folder to store data
 |__ notebooks/eda               # Exploratory data analysis
@@ -128,9 +123,7 @@ Customer Lifetime Value (CLV) is one of the most critical metrics in customer-ce
 |   |__monitoring/mlflow_helper # Mlflow for tracking and logging runs and metrics
 │   ├── preprocessor.py         # Feature transformer
 ├── artifacts/                  # Saved model + preprocessor
-├── docker-compose.yaml
-├── Dockerfile.fastapi
-├── Dockerfile.streamlit
+├── Dockerfile
 ├── .github/workflows/ci-cd pipeline          # GitHub Actions CI/CD
 └── README.md
 |__ requirements.txt
@@ -145,7 +138,7 @@ Customer Lifetime Value (CLV) is one of the most critical metrics in customer-ce
 ## 🛠 Features
 
 ✅ Real-Time CLV Prediction
-✅ FastAPI + Streamlit Interface
+✅ Streamlit Interface
 ✅ MLflow Integration for Full Experiment Tracking
 ✅ Docker-Ready and Production-Deployable
 ✅ Automated CI/CD with GitHub Actions
