@@ -138,15 +138,20 @@ Customer Lifetime Value (CLV) is one of the most critical metrics in customer-ce
 ## 🛠 Features
 
 ✅ Real-Time CLV Prediction
+
 ✅ Streamlit Interface
+
 ✅ MLflow Integration for Full Experiment Tracking
+
 ✅ Docker-Ready and Production-Deployable
+
 ✅ Automated CI/CD with GitHub Actions
 
 
 ## 🧠 Author
 
 **Sujato Dutta**
-*Data Scientist | ML Engineer*
+[ML Engineer]
+Connect with me:
 [LinkedIn](https://www.linkedin.com/in/sujato-dutta/)
 [GitHub](https://github.com/Sujato-Dutta)
