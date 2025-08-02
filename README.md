@@ -1,5 +1,8 @@
 # 🧠 Customer Lifetime Value (CLV) Predictor
 
+## 🎥 Demo Video
+https://youtu.be/OSnz8yU4-Rg?si=IxuWD0EfCxAfTRNK
+
 Predict and optimize customer lifetime value using a fully automated, end-to-end machine learning pipeline. This solution empowers businesses to understand future revenue potential from their existing customer base, enabling strategic decision-making for retention, acquisition and personalized marketing.
 
 
